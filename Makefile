@@ -1,5 +1,5 @@
 
-all: run
+all: build run
 
 run:
 	@echo "-- running app --"
@@ -7,6 +7,7 @@ run:
 
 build:
 	@echo "-- building app --"
+	dep ensure
 	go build -o app main.go
 
 clean:
