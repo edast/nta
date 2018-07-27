@@ -1,18 +1,18 @@
 DOCKER_CMD = docker run --rm -v $(PWD):/go/src/app -w /go/src/app golang
-all: deps build run
+all: build run
 
 run:
 	@echo "-- running app --"
-	./app
+	docker run --rm -p 8080:8080 edast/nta
 
 build:
 	@echo "-- building app --"
-	${DOCKER_CMD} go build -o app main.go
+	docker build -t edast/nta .
 
 deps:
 	@echo "-- getting dependencies --"
-	${DOCKER_CMD} /bin/bash -c "go get -u github.com/golang/dep/cmd/dep && dep ensure -vendor-only"
+	docker build --target dependencies -t edast/nta .
 
 clean:
 	@echo "-- removing app binary --"
-	rm -f app
+	rm -fr app vendor
